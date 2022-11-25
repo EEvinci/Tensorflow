@@ -14,15 +14,15 @@ import imageio
 class DataLoader(object):
     def __init__(self, data_root, transforms=None):
         '''
-        data_root: 数据集根目录，训练集：dataset\seg_train；测试集：dataset\seg_test
-        transforms：数据预处理和扩增：resize->randomflip->randomrotate
+        data_root: 数据集根目录; 训练集:dataset\seg_train; 测试集:dataset\seg_test
+        transforms:数据预处理和扩增:resize->randomflip->randomrotate
         '''
         assert osp.exists(data_root), 'No data directory found at ' + data_root
        
         self.transforms = transforms #用于数据预测处理和扩增
         self.categories = os.listdir(data_root)#根目录下的文件夹个数对应类别
         
-        #检索所有图像文件名，然后构建图像和label对（pairs）
+        #检索所有图像文件名,然后构建图像和label对（pairs）
         self.images_labels = []
         for idx, category in enumerate(self.categories):
             cate_ims = glob.glob(osp.join(data_root, category, '*.jpg'))
@@ -32,7 +32,7 @@ class DataLoader(object):
         print('total images:', len(self.images_labels))
         
         self.cur_idx = 0
-        #需要打乱样本顺序，才能保障每个batch中包含多个类别图像
+        #需要打乱样本顺序,才能保障每个batch中包含多个类别图像
         np.random.shuffle(self.images_labels)
         
         
@@ -41,20 +41,20 @@ class DataLoader(object):
         ims = []; labels = []
         
         for i in range(batch_size):
-            #如果当前样本的idx超过样本总数，从头开始读取
+            #如果当前样本的idx超过样本总数,从头开始读取
             idx = (self.cur_idx+i)%len(self.images_labels)
             
             im_file, label = self.images_labels[idx]
             im = imageio.imread(im_file)
                    
-            #执行预处理和数据扩增：resize->randomflip->randomrotate
+            #执行预处理和数据扩增:resize->randomflip->randomrotate
             if self.transforms:
                 im = self.transforms(im)
                     
             ims.append(im)
             labels.append(label)
             
-        #batch读完后，将当前idx向前移动batch_size,如果越界了则从头开始
+        #batch读完后,将当前idx向前移动batch_size,如果越界了则从头开始
         self.cur_idx += batch_size
         if self.cur_idx >= len(self.images_labels):
             self.cur_idx = 0
@@ -71,7 +71,7 @@ class DataLoader(object):
     def get_num_samples(self):
         return len(self.images_labels)
     
-#单元测试，确保DataLoader没错误
+#单元测试,确保DataLoader没错误
 if __name__ == '__main__':
     data_loader = DataLoader('dataset/seg_train')
     print(data_loader.get_num_categories())

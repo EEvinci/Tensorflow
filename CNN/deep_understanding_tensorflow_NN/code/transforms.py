@@ -10,7 +10,7 @@ import numpy as np
 class TransformCompose(object):
     def __init__(self, transforms):
         '''
-        transforms： 数据预处理和扩增操作的列表
+        transforms: 数据预处理和扩增操作的列表
         '''
         self.transforms = transforms
 
