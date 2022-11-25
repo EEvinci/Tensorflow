@@ -8,8 +8,8 @@ import tensorflow as tf
 
 def VGG16(input_shape=(150, 150, 3), n_classes=6):
     '''
-    定义一个VGG16分类模型，该模型的特征提取器（feature extractor）包含
-    5组卷积；分类器（classifier）包含两层全连接层（fully-connected layers，FC）+一层输出层构成。
+    定义一个VGG16分类模型,该模型的特征提取器(feature extractor)包含
+    5组卷积;分类器(classifier)包含两层全连接层(fully-connected layers,FC)+一层输出层构成。
     '''
     model = tf.keras.models.Sequential()
     #group 1
